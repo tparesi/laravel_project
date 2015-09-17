@@ -12,18 +12,12 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('tweets');
 });
 
-Route::get('tweets', 'TweetsController@index');
-Route::get('tweets/{id}', 'TweetsController@show');
-Route::get('tweets/create', 'TweetsController@create');
+Route::resource('tweets', 'TweetsController');
 
-
-Route::get('auth/login', 'Auth\AuthController@getLogin');
-Route::post('auth/login', 'Auth\AuthController@postLogin');
-Route::get('auth/logout', 'Auth\AuthController@getLogout');
-
-// Registration routes...
-Route::get('auth/register', 'Auth\AuthController@getRegister');
-Route::post('auth/register', 'Auth\AuthController@postRegister');
+Route::controllers([
+    'auth' => 'Auth\AuthController',
+    'password' => 'Auth\PasswordController',
+]);

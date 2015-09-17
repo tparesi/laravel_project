@@ -2,11 +2,16 @@
 
 @section('content')
 
-  <h1>All Tweets</h1>
+    <h1>All Tweets</h1>
 
-  @foreach ($tweets as $tweet)
-      <a href="/tweets/{{ $tweet->id }}">{{ $tweet->title }}</a>
-      <br>
-  @endforeach
+    <ul>
+      @foreach ($tweets as $tweet)
+          <li>
+            <a href="/tweets/{{ $tweet->id }}">{{ $tweet->title }}</a>
+          </li>
+      @endforeach
+    </ul>
 
+    <br>
+    <a class="tweet-button" href="/tweets/create">New Tweet</a>
 @stop

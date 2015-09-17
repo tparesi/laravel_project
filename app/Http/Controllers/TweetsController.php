@@ -4,20 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Auth;
 use App\Tweet;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 class TweetsController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth', ['except'=>['index', 'show']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
+
     public function index()
     {
-        $tweets = Tweet::all();
+        $tweets = Tweet::latest()->get();
 
         return view('tweets.index', compact('tweets'));
     }
@@ -29,7 +37,7 @@ class TweetsController extends Controller
      */
     public function create()
     {
-        
+        return view('tweets.create');
     }
 
     /**
@@ -38,9 +46,11 @@ class TweetsController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(Requests\TweetRequest $request)
     {
-        //
+        Auth::user()->tweets()->save(new Tweet($request->all()));
+
+        return redirect('tweets');
     }
 
     /**
@@ -64,7 +74,9 @@ class TweetsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $tweet = Tweet::findOrFail($id);
+
+        return view('tweets.edit', compact('tweet'));
     }
 
     /**
@@ -74,9 +86,13 @@ class TweetsController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Requests\TweetRequest $request, $id)
     {
-        //
+        $tweet = Tweet::findOrFail($id);
+
+        $tweet->update($request->all());
+
+        return redirect('tweets');
     }
 
     /**
