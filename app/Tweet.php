@@ -18,6 +18,6 @@ class Tweet extends Model {
 
     public function replies()
     {
-        return $this->hasMany('App\Reply');
+        return $this->hasMany('App\Reply', 'tweet_id', 'id');
     }
 }

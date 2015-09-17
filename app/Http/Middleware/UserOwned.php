@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 Use Auth;
 use App\Tweet;
+use App\Reply;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 
@@ -38,9 +39,14 @@ class UserOwned
       public function handle($request, Closure $next)
       {
 
-        $tweet = Tweet::find($request->segment(2));
+        if ($request->segment(1) == "tweet")
+        {
+          $item = Tweet::find($request->segment(2));
+        }  else {
+          $item = Reply::find($request->segment(2));
+        }
 
-        if ($tweet->user_id !== Auth::id())
+        if ($item->user_id !== Auth::id())
         {
             return response('Unauthorized.', 401);
         }

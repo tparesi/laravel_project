@@ -21,14 +21,33 @@
     {!! Form::close() !!}
   @endif
 
+  <h3>All Replies:</h3>
+
+  <ul>
+    @foreach ($tweet->replies as $reply)
+        <li>
+          {{ $reply->body }}
+          @if (Auth::id() == $reply->user_id)
+              {!! Form::open(['url' => 'replies/' . $reply->id, 'class' => 'inline-form']) !!}
+                  {!! Form::hidden('_method', 'DELETE') !!}
+                  <button class="delete-tweet-button">
+                      Delete
+                  </button>
+              {!! Form::close() !!}
+          @endif
+        </li>
+    @endforeach
+  </ul>
+
+  <br>
+
   @include('errors.list')
-  
-  <h4>Add Reply</h4>
+
   {!! Form::open(['url' => 'replies']) !!}
       {!! Form::hidden('tweet_id', $tweet->id) !!}
 
       <div class="form-group">
-          {!! Form::label('body', 'Body: ') !!}
+          {!! Form::label('body', 'Add Reply: ') !!}
           <br>
           {!! Form::textarea('body', null, ['class' => 'form-control']) !!}
       </div>

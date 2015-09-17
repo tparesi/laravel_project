@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Reply extends Model
 {
     protected $fillable = [
-        'body'
+        'body',
+        'tweet_id',
     ];
 
     public function user()
