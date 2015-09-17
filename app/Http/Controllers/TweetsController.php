@@ -15,6 +15,7 @@ class TweetsController extends Controller
     public function __construct()
     {
         $this->middleware('auth', ['except'=>['index', 'show']]);
+        $this->middleware('owned', ['only'=>['update', 'destroy']]);
     }
 
     /**
@@ -57,12 +58,11 @@ class TweetsController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
+     * @param  Article $article
      * @return Response
      */
-    public function show($id)
+    public function show(Tweet $tweet)
     {
-        $tweet = Tweet::findOrFail($id);
-
         return view('tweets.show', compact('tweet'));
     }
 
@@ -72,10 +72,8 @@ class TweetsController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function edit($id)
+    public function edit(Tweet $tweet)
     {
-        $tweet = Tweet::findOrFail($id);
-
         return view('tweets.edit', compact('tweet'));
     }
 
@@ -86,10 +84,8 @@ class TweetsController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Requests\TweetRequest $request, $id)
+    public function update(Requests\TweetRequest $request, Tweet $tweet)
     {
-        $tweet = Tweet::findOrFail($id);
-
         $tweet->update($request->all());
 
         return redirect('tweets');
@@ -101,8 +97,10 @@ class TweetsController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Tweet $tweet)
     {
-        //
+        $tweet->delete();
+
+        return redirect('tweets');
     }
 }

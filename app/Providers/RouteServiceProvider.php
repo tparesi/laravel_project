@@ -27,6 +27,9 @@ class RouteServiceProvider extends ServiceProvider
         //
 
         parent::boot($router);
+
+        $router->model('tweets', 'App\Tweet');
+        // $router->model('replies' 'App\Reply');
     }
 
     /**

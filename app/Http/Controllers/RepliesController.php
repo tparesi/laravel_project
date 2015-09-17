@@ -4,29 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Auth;
+use App\Reply;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 class RepliesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
+    public function __construct()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
+        $this->middleware('auth', ['except'=>'store');
+        $this->middleware('owned', ['only'=>'destroy']);
     }
 
     /**
@@ -37,41 +25,9 @@ class RepliesController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        Auth::user()->replies()->save(new Reply($request->all()));
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request  $request
-     * @param  int  $id
-     * @return Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        return Redirect::back()->with('message','Operation Successful !');
     }
 
     /**

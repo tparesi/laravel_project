@@ -16,6 +16,9 @@ Route::get('/', function () {
 });
 
 Route::resource('tweets', 'TweetsController');
+Route::post('replies', 'RepliesController@store');
+Route::delete('replies/{replies}', 'RepliesController@destroy');
+
 
 Route::controllers([
     'auth' => 'Auth\AuthController',

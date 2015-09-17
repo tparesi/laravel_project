@@ -4,10 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tweet extends Model {
-
+class Reply extends Model
+{
     protected $fillable = [
-        'title',
         'body'
     ];
 
@@ -16,8 +15,8 @@ class Tweet extends Model {
         return $this->belongsTo('App\User');
     }
 
-    public function replies()
+    public function tweet()
     {
-        return $this->hasMany('App\Reply');
+        return $this->belongsTo('App\Tweet');
     }
 }
