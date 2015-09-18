@@ -38,8 +38,8 @@ class UserOwned
 
       public function handle($request, Closure $next)
       {
-
-        if ($request->segment(1) == "tweet")
+        
+        if ($request->segment(1) == "tweets")
         {
           $item = Tweet::find($request->segment(2));
         }  else {
